@@ -11,12 +11,16 @@ import (
 	"time"
 )
 
-var palette = []color.Color{color.Black, color.RGBA{0, 255, 0, 255}}
+var palette = []color.Color{color.Black, color.RGBA{255, 0, 0, 255}, color.RGBA{0, 255, 0, 255}, color.RGBA{0, 0, 255, 255}}
 
 const (
 	blackIndex = 0
-	greenIndex = 1
+	redIndex   = 1
+	greenIndex = 2
+	blueIndex  = 3
 )
+
+var index = []uint8{1, 2, 3}
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
@@ -40,7 +44,7 @@ func lissajous(out io.Writer) {
 		for t := 0.0; t < cycles*2*math.Pi; t += res {
 			x := math.Sin(t)
 			y := math.Sin(t*freq + phase)
-			img.SetColorIndex(size+int(x*size+0.5), size+int(y*size+0.5), greenIndex)
+			img.SetColorIndex(size+int(x*size+0.5), size+int(y*size+0.5), index[rand.Intn(len(index))])
 		}
 		phase += 0.1
 		anim.Delay = append(anim.Delay, delay)
